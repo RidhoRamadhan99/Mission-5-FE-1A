@@ -1,0 +1,9 @@
+.hero {
+  background-image: url('../../assets/img/banner/hero.jpeg');
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  place-items: center;
+  position: relative;
+  color: #2b9435;
+}
