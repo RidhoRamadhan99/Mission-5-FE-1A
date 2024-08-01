@@ -34,6 +34,10 @@ const Navbar = () => {
         <Link to={'/product'} className="text-primary600 hover:text-green-800 transition duration-100 text-sm sm:text-base">
           Kategori
         </Link>
+        <Link to={'/admin'} className="text-primary600 hover:text-green-800 transition duration-100 text-sm sm:text-base">
+          Admin
+        </Link>
+
         <div className="relative" ref={dropdownRef}>
           <button onClick={toggleDropdown} className="focus:outline-none">
             <img src={profileImg} alt="Profile" className="rounded-full w-8 h-8 sm:w-10 sm:h-10" />

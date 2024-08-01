@@ -1,23 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Navbar from '../components/container/Navbar';
 import Footer from '../components/container/Footer';
 import FilterSidebar from '../components/container/FilterSidebar';
 import Card from '../components/container/Card';
-import { card } from '../Data';
 import useFilteredAndPaginate from '../hooks/useFilteredAndPaginate';
 
 function ProductPage() {
+  const [cards, setCards] = useState([]);
   const [filters, setFilters] = useState({});
   const [sortOrder, setSortOrder] = useState('default');
   const [searchQuery, setSearchQuery] = useState('');
   const itemsPerPage = 6;
 
-  const { currentPage, totalPages, currentData, changePage, resetPage } = useFilteredAndPaginate(card, filters, itemsPerPage, sortOrder, searchQuery);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://66a313e444aa6370457fbc3e.mockapi.io/products');
+        setCards(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const { currentPage, totalPages, currentData, changePage, resetPage } = useFilteredAndPaginate(cards, filters, itemsPerPage, sortOrder, searchQuery);
 
   useEffect(() => {
     resetPage();
   }, [filters, sortOrder, searchQuery]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
@@ -41,7 +60,7 @@ function ProductPage() {
     <div className="bg-bgc ">
       <Navbar />
       <main className="py-32">
-        <div className="container max-w-screen-4xl mx-auto">
+        <div className="max-w-full mx-28 ">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold">Koleksi Video Pembelajaran Unggulan</h1>
           <h2 className="text-base sm:text-lg font-normal opacity-80">Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!</h2>
           <div className="flex flex-col md:flex-row mt-10 p-4 gap-4">
@@ -61,9 +80,11 @@ function ProductPage() {
                   <input type="text" placeholder="Cari Kelas" className="form-input p-2 bg-white border border-gray-200 rounded-md w-full md:w-auto" value={searchQuery} onChange={handleSearchChange} />
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-10">
                 {currentData.map((card, index) => (
-                  <Card key={index} card={card} />
+                  <Link to={`/product/${card.id}`} key={index}>
+                    <Card key={index} card={card} />
+                  </Link>
                 ))}
               </div>
               <div className="flex justify-end md:justify-end mt-4">

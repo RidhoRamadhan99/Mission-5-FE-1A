@@ -14,7 +14,7 @@ const useFilteredAndPaginate = (data, filters, itemsPerPage, sortOrder, searchQu
     // Filter harga
     if (filters.price && filters.price.length > 0) {
       filtered = filtered.filter((item) => {
-        const itemPrice = item.discount ? parseInt(item.discount.replace('Rp ', '').replace('k', '000'), 10) : parseInt(item.harga.replace('Rp ', '').replace('k', '000'), 10);
+        const itemPrice = item.hargaDisc ? parseInt(item.hargaDisc.replace('Rp ', '').replace('k', '000'), 10) : parseInt(item.harga.replace('Rp ', '').replace('k', '000'), 10);
         return filters.price.some((priceRange) => {
           const [min, max] = priceRange.split('-').map((p) => (p === '500k+' ? Infinity : parseInt(p.replace('k', '000'), 10)));
           return itemPrice >= min && itemPrice < max;
@@ -53,15 +53,15 @@ const useFilteredAndPaginate = (data, filters, itemsPerPage, sortOrder, searchQu
       switch (sortOrder) {
         case 'priceHigh':
           sorted.sort((a, b) => {
-            const priceA = a.discount ? parseInt(a.discount.replace('Rp ', '').replace('k', '000'), 10) : parseInt(a.harga.replace('Rp ', '').replace('k', '000'), 10);
-            const priceB = b.discount ? parseInt(b.discount.replace('Rp ', '').replace('k', '000'), 10) : parseInt(b.harga.replace('Rp ', '').replace('k', '000'), 10);
+            const priceA = a.hargaDisc ? parseInt(a.hargaDisc.replace('Rp ', '').replace('k', '000'), 10) : parseInt(a.harga.replace('Rp ', '').replace('k', '000'), 10);
+            const priceB = b.hargaDisc ? parseInt(b.hargaDisc.replace('Rp ', '').replace('k', '000'), 10) : parseInt(b.harga.replace('Rp ', '').replace('k', '000'), 10);
             return priceB - priceA;
           });
           break;
         case 'priceLow':
           sorted.sort((a, b) => {
-            const priceA = a.discount ? parseInt(a.discount.replace('Rp ', '').replace('k', '000'), 10) : parseInt(a.harga.replace('Rp ', '').replace('k', '000'), 10);
-            const priceB = b.discount ? parseInt(b.discount.replace('Rp ', '').replace('k', '000'), 10) : parseInt(b.harga.replace('Rp ', '').replace('k', '000'), 10);
+            const priceA = a.hargaDisc ? parseInt(a.hargaDisc.replace('Rp ', '').replace('k', '000'), 10) : parseInt(a.harga.replace('Rp ', '').replace('k', '000'), 10);
+            const priceB = b.hargaDisc ? parseInt(b.hargaDisc.replace('Rp ', '').replace('k', '000'), 10) : parseInt(b.harga.replace('Rp ', '').replace('k', '000'), 10);
             return priceA - priceB;
           });
           break;
@@ -72,10 +72,10 @@ const useFilteredAndPaginate = (data, filters, itemsPerPage, sortOrder, searchQu
           sorted.sort((a, b) => b.judul.localeCompare(a.judul));
           break;
         case 'ratingHigh':
-          sorted.sort((a, b) => b.rate[0].rateAvg - a.rate[0].rateAvg);
+          sorted.sort((a, b) => b.rate.rateAvg - a.rate.rateAvg);
           break;
         case 'ratingLow':
-          sorted.sort((a, b) => a.rate[0].rateAvg - b.rate[0].rateAvg);
+          sorted.sort((a, b) => a.rate.rateAvg - b.rate.rateAvg);
           break;
         default:
           break;

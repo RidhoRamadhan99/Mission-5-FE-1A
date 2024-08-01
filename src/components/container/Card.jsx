@@ -18,15 +18,15 @@ const Card = ({ card }) => {
         <div className="flex flex-row justify-between items-center sm:flex-row sm:items-center sm:justify-between mb-2">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
-              <FaStar key={i} className={i < Math.round(card.rate[0].rateAvg) ? 'text-yellow-500 mt-1' : 'text-gray-300 mt-1'} />
+              <FaStar key={i} className={i < Math.round(card.rate.rateAvg) ? 'text-yellow-500 mt-1' : 'text-gray-300 mt-1'} />
             ))}
-            <span className="text-gray-600 ml-2">{card.rate[0].rateAvg}</span>
-            <span className="text-gray-600 ml-2">({card.rate[0].rateCount})</span>
+            <span className="text-gray-600 ml-2">{card.rate.rateAvg}</span>
+            <span className="text-gray-600 ml-2">({card.rate.rateCount})</span>
           </div>
           {card.discount ? (
             <div className="flex items-center">
               <span className="text-red-500 text-sm line-through mr-2">{card.harga}</span>
-              <span className="text-green-500 text-lg font-bold">{card.discount}</span>
+              <span className="text-green-500 text-lg font-bold">{card.hargaDisc}</span>
             </div>
           ) : (
             <span className="text-green-500 text-lg font-bold">{card.harga}</span>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/container/Navbar';
 import Footer from '../components/container/Footer';
 import Card from '../components/container/Card';
@@ -16,6 +17,19 @@ const HomePage = () => {
 
   const itemsPerPage = 9;
   const { currentPage, totalPages, currentData, changePage, resetPage } = useFilteredAndPaginate(cardData, filters, itemsPerPage);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://66a313e444aa6370457fbc3e.mockapi.io/products');
+        setCards(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    window.scrollTo(0, 0);
+    fetchData();
+  }, []);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -45,7 +59,9 @@ const HomePage = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {currentData.map((item) => (
-              <Card key={item.id} card={item} />
+              <Link to={`/product/${item.id}`}>
+                <Card key={item.id} card={item} />
+              </Link>
             ))}
           </div>
           <div className="flex justify-end mt-8">
