@@ -1,13 +1,14 @@
-import create from 'zustand';
+import { create } from "zustand";
 
 const useStore = create((set) => ({
-  // Pastikan data awal di sini
+  // Data awal state
   notifications: [],
-  setData: (newData) => set({ data: newData }),
+  // Fungsi untuk menambahkan notifikasi
   addNotification: (message) =>
     set((state) => ({
       notifications: [...state.notifications, { id: Date.now(), message }],
     })),
+  // Fungsi untuk menghapus notifikasi
   removeNotification: (id) =>
     set((state) => ({
       notifications: state.notifications.filter((notif) => notif.id !== id),
