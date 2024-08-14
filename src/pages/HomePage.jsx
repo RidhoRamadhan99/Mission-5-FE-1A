@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import Navbar from "../components/container/Navbar";
 import Footer from "../components/container/Footer";
 import Card from "../components/container/Card";
@@ -20,29 +19,13 @@ const categories = [
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Semua Kelas");
-  const [cards, setCards] = useState([]);
   const filters = {
     category: selectedCategory === "Semua Kelas" ? "" : selectedCategory,
   };
 
   const itemsPerPage = 9;
   const { currentPage, totalPages, currentData, changePage, resetPage } =
-    useFilteredAndPaginate(cards, filters, itemsPerPage);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://66a313e444aa6370457fbc3e.mockapi.io/products"
-        );
-        setCards(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    window.scrollTo(0, 0);
-    fetchData();
-  }, []);
+    useFilteredAndPaginate(cardData, filters, itemsPerPage); // Use cardData here
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
